@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-1-cas-workload
+  namespace: cluster-autoscaler
+spec:
+  template:
+    metadata:
+      labels:
+        name: lab-1
+        autoscaler: cas
+    spec:
+      tolerations:
+        - key: cluster-autoscaler
+          effect: NoSchedule
+          operator: Exists
+      nodeSelector:
+        autoscaler: cas
+      containers:
+      - name: cas-lab-1
+        image: busybox
+        command: [ "/bin/sh" ]
+        args: [ "-c", "sleep 7200" ]
+        resources:
+          requests:
+              cpu: 500m
+              memory: 5Gi
+  selector:
+    matchLabels:
+      name: lab-1
+      autoscaler: cas

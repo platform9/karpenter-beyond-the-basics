@@ -1,0 +1,27 @@
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: karpenter-lab-3-spot
+spec:
+  disruption:
+    consolidationPolicy: WhenEmpty
+    consolidateAfter: 2m
+  template:
+    spec:
+      requirements:
+        - key: "karpenter.sh/capacity-type"
+          operator: "In"
+          values: [ "spot" ]
+        - key: "karpenter.k8s.aws/instance-family"
+          operator: "In"
+          values: [ "m5", "c5", "c5n", "m6g", "m6i", "m6a" ]
+        - key: "autoscaler"
+          operator: "In"
+          values: [ "karpenter" ]
+      taints:
+        - key: karpenter-nodepool-lab-3
+          effect: NoSchedule
+      nodeClassRef:
+        group: karpenter.k8s.aws
+        kind: EC2NodeClass
+        name: karpenter-lab

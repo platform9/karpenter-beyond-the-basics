@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab-3-arm-workload
+  namespace: karpenter
+spec:
+  template:
+    metadata:
+      labels:
+        name: lab-3
+        autoscaler: karpenter
+    spec:
+      tolerations:
+      - key: karpenter-nodepool-lab-1
+        effect: NoSchedule
+        operator: Exists
+      nodeSelector:
+        autoscaler: karpenter
+        kubernetes.io/arch: arm64
+      containers:
+      - name: karpenter-lab-3
+        image: arm64v8/busybox
+        command: [ "/bin/sh" ]
+        args: [ "-c", "sleep 7200" ]
+        resources:
+          requests:
+              cpu: 500m
+              memory: 5Gi
+  selector:
+    matchLabels:
+      name: lab-3
+      autoscaler: karpenter

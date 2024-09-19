@@ -44,13 +44,14 @@ kubectl get po -A
 
 ### Testing Cluster Autoscaler and Karpenter
 
-1. Deploy a sample workload with a toleration of the CAS taint and a nodeSelector that selects the CAS nodes.
+1. Deploy a sample workload with a toleration of the CAS taint and a nodeSelector that selects the CAS nodes, then scale it up to trigger Cluster Autoscaler to increment the autoscaling group.
 
 ```
 kubectl apply -f lab-1/workload-cas.yaml
+kubectl scale -n cluster-autoscaler lab-1-cas-workload --replicas 3
 ```
 
-2. Observe the type of node provisioned, the time to provision, and the utilization on the node.
+2. Observe the type of node(s) provisioned, the time to provision, and the utilization on the node.
 
 ```
 kubectl get nodes -l autoscaler=cas
@@ -58,11 +59,13 @@ kubectl get nodes -l autoscaler=cas
 
 `kubectl describe node [node name]`
 
-3. Deploy a Karpenter EC2NodeClass and a NodePool that will provision nodes with a specific taint and labels.
+3. Deploy a Karpenter EC2NodeClass and a NodePool that will provision nodes with a specific taint and labels.  First, edit the file `lab-1/ec2nodeclass/overlays/nodeclass-discovery.yaml` and replace the placeholders `YOUR_CLUSTER_NAME` and `YOUR_VPC_ID` with the respective values from your lab instructor.   Then, apply the nodeclass and nodepool.
+
 ```
 kubectl apply -k lab-1/ec2nodeclass
 kubectl apply -f lab-1/nodepool.yaml
 ```
+
 4. Deploy a workload similar to the first sample workload but with toleration and nodeSelector that will cause Karpenter to scale up the NodePool.
 
 ```

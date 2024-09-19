@@ -7,25 +7,25 @@ spec:
   template:
     metadata:
       labels:
-        name: lab-1
+        name: lab-4
         autoscaler: karpenter
     spec:
       tolerations:
-      - key: karpenter-nodepool-lab-1
+      - key: karpenter-nodepool-lab-4
         effect: NoSchedule
         operator: Exists
       nodeSelector:
         autoscaler: karpenter
       containers:
-      - name: karpenter-lab-1
+      - name: karpenter-lab-4
         image: busybox
         command: [ "/bin/sh" ]
         args: [ "-c", "sleep 7200" ]
         resources:
           requests:
               cpu: 500m
-              memory: 5Gi
+              memory: 12Gi
   selector:
     matchLabels:
-      name: lab-1
+      name: lab-4
       autoscaler: karpenter

@@ -6,6 +6,7 @@ spec:
   subnetSelectorTerms:
   - tags:
       karpenter.sh/discovery: karpenter
+      vpc_id: YOUR_VPC_ID
   securityGroupSelectorTerms:
   - tags:
       kubernetes.io/cluster/YOUR_CLUSTER_NAME: owned

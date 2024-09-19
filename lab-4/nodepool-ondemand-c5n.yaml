@@ -16,7 +16,7 @@ spec:
           operator: "In"
           values: [ "karpenter" ]
       taints:
-        - key: karpenter-nodepool-lab-2
+        - key: karpenter-nodepool-lab-4
           effect: NoSchedule
       nodeClassRef:
         group: karpenter.k8s.aws

@@ -22,7 +22,7 @@ spec:
       nodeSelector:
         emp.pf9.io/owned: true
       containers:
-      - name: karpenter-lab-2
+      - name: karpenter-lab-4
         image: busybox
         command: [ "/bin/sh" ]
         args: [ "-c", "sleep 7200" ]
@@ -32,5 +32,5 @@ spec:
               memory: 12Gi
   selector:
     matchLabels:
-      name: lab-2
+      name: lab-4
       type: base
